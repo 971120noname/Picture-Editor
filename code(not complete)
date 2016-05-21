@@ -1,0 +1,37 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>
+</title>
+</head>
+<body>
+<form action="">
+        <input type="file" name="imgOne" id="imgOne" onchange="preImg(this.id,'imgPre');" />
+        <img id="imgPre" src="" style="display: block;" />
+</form>
+    <canvas id="demo" width="400" height="400" style="border:1px solid red"></canvas>
+    <script type="text/javascript">
+        var canvas = document.getElementById("demo");
+        var cxt = canvas.getContext("2d");
+        //打开图片
+        function preImg(sourceId, targetId) {
+            cxt.clearRect(0, 0, 400, 400);
+            if (typeof FileReader === 'undefined') {
+                alert('Your browser does not support FileReader...');
+                return;
+            }
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var img = document.getElementById(targetId);
+                var cxt = document.getElementById("demo").getContext("2d")
+                img.src = this.result;
+                img.onload = function () {
+                    cxt.drawImage(img, 0, 0);
+                }
+            }
+            reader.readAsDataURL(document.getElementById(sourceId).files[0]);
+        }
+    </script>
+	</body>
+	</html>
