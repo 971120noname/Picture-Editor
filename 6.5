@@ -1,0 +1,611 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>
+</title>
+<style type="text/css">
+#demo
+{
+position:absolute;
+left:420px;
+top:110px;
+box-shadow:3px 3px 10px #333;
+}
+#header
+{
+background-color:00ddab;
+height:10%;
+margin:0px;
+padding:0px;
+}
+#name
+{
+color:white;
+font-size:25px;
+position:absolute;
+top:20px;
+}
+.button
+{
+color:009966;
+background-color:ffffdd;
+border:0px;
+text-align:center;
+font-size:14px;
+position:relative;
+top:5px;
+left:5px;
+}
+.item
+{
+width:80px;
+height:30px;
+float:left;
+border-radius:5px;
+border:1px solid white;
+position:relative;
+left:400px;
+top:45%;
+background-color:ffffdd;
+margin-right:15px;
+}
+#form
+{
+filter:alpha(opacity:0);opacity: 0;
+position:relative;
+top:-13px;
+left:5px;
+}
+#form2
+{
+filter:alpha(opacity:0);opacity: 0;
+}
+#wh{
+position:fixed;
+top:120px;
+display:none;
+float:left;
+border-radius:5px;
+border:1px solid white;
+background-color:00ddab;
+}
+.input{
+color:white;
+border-radius:5px;
+border:1px solid white;
+background-color:00ddab;
+}
+#widthp{
+color:white;
+width:100px;
+margin-left:5px;
+}
+#heightp{
+color:white;
+width:100px;
+margin-left:5px;
+}
+#submitbutton{
+position:relative;
+left:75px;
+}
+#crop{
+	position:fixed;
+	top:600px;
+	left:600px;
+	background-color:00ddab;
+	display:none;
+}
+#cropbutton{
+    position:fixed;
+	top:605px;
+	left:615px;
+	text-align:center;
+	border:0px;
+	background-color:00ddab;
+	color:ffffef;
+	font-size:18px;
+}
+#openagainbutton{
+    position:fixed;
+	top:265px;
+	left:20px;
+	text-align:center;
+	border:0px;
+	background-color:00ddab;
+	color:ffffef;
+	font-size:18px;
+}
+#togetherpart{
+	position:fixed;
+	left:10px;
+    top:260px;
+    background-color:00ddab;
+	display:none;
+    width:150px;
+}
+#heng{
+	position:fixed;
+    top:300px;
+	left:30px;
+	text-align:center;
+	border:0px;
+	border-radius:5px;
+	background-color:00ddab;
+	color:ffffef;
+	font-size:18px;
+}
+#shu{
+	position:fixed;
+    top:300px;
+    left:90px;
+	text-align:center;
+	border:0px;
+	border-radius:5px;
+	background-color:00ddab;
+	color:ffffef;
+	font-size:18px;
+}
+#pin{
+	position:fixed;
+	top:330px;
+	left:45px;
+	text-align:center;
+	border:0px;
+	border-radius:5px;
+	background-color:00ddab;
+	color:ffffef;
+	font-size:18px;
+}
+</style>
+</head>
+
+<body>
+<div id="header">
+<span id="name"><b>Picture Editor</b></span>
+<div id="open" class="item">
+<button id="openbutton" class="button" onmouseover="this.style.cursor='hand'" onmouseout="this.style.cursor='normal'">打开图片</button>
+<form action="" id="form">
+<input type="file" name="imgOne" id="imgOne" onchange="preImg(this.id,'imgPre');" />//创建一个FileUoload对象
+<img id="imgPre" src="" style="display: block;" />
+</form>
+</div>
+<div id="changesize" class="item"><button id="changesizebutton" class="button" onmouseover="this.style.cursor='hand'" onmouseout="this.style.cursor='normal'">改变大小</button></div>
+<div id="cut" class="item"><button id="cutbutton" class="button" onmouseover="this.style.cursor='hand'" onmouseout="this.style.cursor='normal'">裁剪图片</button></div>
+<div id="together" class="item"><button id="togetherbutton" class="button" onmouseover="this.style.cursor='hand'" onmouseout="this.style.cursor='normal'">拼接图片</button></div>
+<div id="save" class="item"><button id="savebutton" class="button" onmouseover="this.style.cursor='hand'" onmouseout="this.style.cursor='normal'">保存本地</button></div> 
+</div>
+<div id="wh">
+<form id="formwh">
+  <p id="widthp">width : <input type="text" id="w1" style="width:30px" class="input"></p>
+  <p id="heightp">height: <input type="text" id="w2" style="width:30px" class="input"></p>
+</form><p id="submit">
+<button id="submitbutton" class="button">√</button></p>
+</div>
+<div id="togetherpart" class="item">
+<button id="openagainbutton" onmouseover="this.style.cursor='hand'" onmouseout="this.style.cursor='normal'">选择待拼接图片</button>
+<form action="" id="form2">
+<input type="file" name="imgtwo" id="imgtwo" onchange="preImg2(this.id,'imgPre1');" />
+<img id="imgPre1" src="" style="dispaly: block;"/>
+</form>
+<button id="heng">横拼</button>
+<button id="shu">竖拼</button>
+<button id="pin">确认拼接</button>
+</div>
+<div id="crop" class="item">
+<button id="cropbutton" onmouseover="this.style.cursor='hand'" onmouseout="this.style.cursor='normal'">裁剪</button>
+</div>
+<canvas id="demo" width="450" height="450" style="border:1px solid red"></canvas>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js">
+</script>
+<script src="/jquery/jquery-1.11.1.min.js">
+</script>
+<script>
+var img;
+var canvas = document.getElementById("demo");
+var cxt = canvas.getContext("2d");
+var a1;
+var a2;
+var iMouseX, iMouseY = 1;
+var theSelection;
+var x;
+var y;
+var w;
+var h;
+//var Img;
+var cropstatus=true;
+// define Selection constructor
+function Selection(){
+    this.x = x; // initial positions
+    this.y = y;
+    this.w = w; ;// and size
+    this.h = h;
+    this.px = x; // extra variables to dragging calculations
+    this.py = y;
+    this.csize = 6; // resize cubes size
+    this.csizeh = 10; // resize cubes size (on hover)//变大
+
+    this.bHow = [false, false, false, false]; // hover statuses
+    this.iCSize = [this.csize, this.csize, this.csize, this.csize]; // resize cubes sizes
+    this.bDrag = [false, false, false, false]; // drag statuses
+    this.bDragAll = false; // drag whole selection
+	}
+// define Selection draw method
+Selection.prototype.draw = function(){
+	cxt.strokeStyle = '#000';
+    cxt.lineWidth = 2;
+    cxt.strokeRect(this.x, this.y, this.w, this.h);
+    // draw part of original image
+    if (this.w > 0 && this.h > 0){
+        cxt.drawImage(img, this.x*img.width/450, this.y*img.height/450, this.w*img.width/450, this.h*img.height/450, this.x, this.y, this.w, this.h);
+    }
+
+    // draw resize cubes 画了一个canvas并把对应大小的原图放进去
+    cxt.fillStyle = '#fff';
+    cxt.fillRect(this.x - this.iCSize[0], this.y - this.iCSize[0], this.iCSize[0] * 2, this.iCSize[0] * 2);
+    cxt.fillRect(this.x + this.w - this.iCSize[1], this.y - this.iCSize[1], this.iCSize[1] * 2, this.iCSize[1] * 2);
+    cxt.fillRect(this.x + this.w - this.iCSize[2], this.y + this.h - this.iCSize[2], this.iCSize[2] * 2, this.iCSize[2] * 2);
+    cxt.fillRect(this.x - this.iCSize[3], this.y + this.h - this.iCSize[3], this.iCSize[3] * 2, this.iCSize[3] * 2);
+}//画小白框
+function drawScene() { // main drawScene function
+	cxt.clearRect(0, 0, cxt.canvas.width, cxt.canvas.height); // clear canvas
+
+    // draw source image
+    cxt.drawImage(img, 0, 0, cxt.canvas.width, cxt.canvas.height);
+
+    // and make it darker
+    cxt.fillStyle= 'rgba(0, 0, 0, 0.5)';
+    cxt.fillRect(0, 0, cxt.canvas.width, cxt.canvas.height);
+
+    // draw selection
+    theSelection.draw();
+}
+function newcanvas(){
+	//var temp_cxt, temp_canvas;
+    //temp_canvas = document.createElement('canvas');
+	//temp_canvas.style.position="fixed";
+	//temp_canvas.style.top="110+(450-savecanvas.height)/2";
+	//temp_canvas.style.left="420+(450-savecanvas.width)/2";
+	//document.body.appendChild(temp_canvas);
+    //temp_cxt = temp_canvas.getContext('2d');
+	//temp_canvas.width = theSelection.w;
+    //temp_canvas.height = theSelection.h;
+	canvas.style.position='absolute';
+	cxt.clearRect(0, 0, cxt.canvas.width, cxt.canvas.height);
+	canvas.width=theSelection.w;
+	canvas.height=theSelection.h;
+	cxt.drawImage(img, theSelection.x*img.width/450, theSelection.y*img.height/450, theSelection.w*img.width/450, theSelection.h*img.height/450, 0, 0, theSelection.w, theSelection.h); 
+	canvas.style.top=110+(450-theSelection.h)/2;
+	canvas.style.left=420+(450-theSelection.w)/2;
+	//temp_cxt.drawImage(img, theSelection.x*1024/450, theSelection.y*1024/450, theSelection.w*1024/450, theSelection.h*1024/450, 0, 0, theSelection.w, theSelection.h);
+}
+
+//function getResults() {
+  //  var temp_cxt, temp_canvas;
+  //  temp_canvas = document.createElement('canvas');
+    //temp_cxt = temp_canvas.getContext('2d');
+    //temp_canvas.width = theSelection.w;
+    //temp_canvas.height = theSelection.h;
+    //temp_cxt.drawImage(image, theSelection.x, theSelection.y, theSelection.w, theSelection.h, 0, 0, theSelection.w, theSelection.h);
+    //var vData = temp_canvas.toDataURL();
+    //$('#crop_result').attr('src', vData);
+    //$('#results h2').text('Well done, we have prepared our cropped image, now you can save it if you wish');
+//}
+$(document).ready(function(){
+  $("#changesizebutton").click(function(){
+    show('wh');
+    });
+  $("#submitbutton").click(function(){
+	size();
+	});
+  $("#cutbutton").click(function(){
+	show2('crop');
+	x=canvas.width/4;y=canvas.height/4;w=canvas.width/2;h=canvas.height/2;
+    theSelection=new Selection();
+    $('#demo').mousemove(function(e) {		// binding mouse move event
+		var canvasOffset = $(canvas).offset();
+		if(cropstatus==true){	
+        iMouseX = Math.floor(e.pageX - canvasOffset.left);
+        iMouseY = Math.floor(e.pageY - canvasOffset.top);//获取鼠标所在点的数据
+        // in case of drag of whole selector
+        if (theSelection.bDragAll) {
+            theSelection.x = iMouseX - theSelection.px;
+            theSelection.y = iMouseY - theSelection.py;
+        }
+
+        for (i = 0; i < 4; i++) {
+            theSelection.bHow[i] = false;
+            theSelection.iCSize[i] = theSelection.csize;
+        }
+
+        // hovering over resize cubes
+        if (iMouseX > theSelection.x - theSelection.csizeh && iMouseX < theSelection.x + theSelection.csizeh &&//选中其中左上角小框
+            iMouseY > theSelection.y - theSelection.csizeh && iMouseY < theSelection.y + theSelection.csizeh) {
+
+            
+			theSelection.bHow[0] = true;
+            theSelection.iCSize[0] = theSelection.csizeh;
+        }
+        if (iMouseX > theSelection.x + theSelection.w-theSelection.csizeh && iMouseX < theSelection.x + theSelection.w + theSelection.csizeh &&
+            iMouseY > theSelection.y - theSelection.csizeh && iMouseY < theSelection.y + theSelection.csizeh) {//选中右上角小框
+
+            theSelection.bHow[1] = true;
+            theSelection.iCSize[1] = theSelection.csizeh;
+        }
+        if (iMouseX > theSelection.x + theSelection.w-theSelection.csizeh && iMouseX < theSelection.x + theSelection.w + theSelection.csizeh &&
+            iMouseY > theSelection.y + theSelection.h-theSelection.csizeh && iMouseY < theSelection.y + theSelection.h + theSelection.csizeh) {
+
+            theSelection.bHow[2] = true;//右下角
+            theSelection.iCSize[2] = theSelection.csizeh;
+        }
+        if (iMouseX > theSelection.x - theSelection.csizeh && iMouseX < theSelection.x + theSelection.csizeh &&
+            iMouseY > theSelection.y + theSelection.h-theSelection.csizeh && iMouseY < theSelection.y + theSelection.h + theSelection.csizeh) {
+
+            theSelection.bHow[3] = true;//左下角
+            theSelection.iCSize[3] = theSelection.csizeh;
+        }
+
+        // in case of dragging of resize cubes鼠标移动时
+        var iFW, iFH;
+        if (theSelection.bDrag[0]) {
+            var iFX = iMouseX - theSelection.px;
+            var iFY = iMouseY - theSelection.py;
+            iFW = theSelection.w + theSelection.x - iFX;//新画布的宽度
+            iFH = theSelection.h + theSelection.y - iFY;
+        }
+        if (theSelection.bDrag[1]) {
+            var iFX = theSelection.x;
+            var iFY = iMouseY - theSelection.py;
+            iFW = iMouseX - theSelection.px - iFX;
+            iFH = theSelection.h + theSelection.y - iFY;
+        }
+        if (theSelection.bDrag[2]) {
+            var iFX = theSelection.x;
+            var iFY = theSelection.y;
+            iFW = iMouseX - theSelection.px - iFX;
+            iFH = iMouseY - theSelection.py - iFY;
+        }
+        if (theSelection.bDrag[3]) {
+            var iFX = iMouseX - theSelection.px;
+            var iFY = theSelection.y;
+            iFW = theSelection.w + theSelection.x - iFX;
+            iFH = iMouseY - theSelection.py - iFY;
+        }
+
+        if (iFW > theSelection.csizeh * 2 && iFH > theSelection.csizeh * 2) {
+            theSelection.w = iFW;
+            theSelection.h = iFH;
+
+            theSelection.x = iFX;
+            theSelection.y = iFY;
+        }
+
+        drawScene();
+		}
+	});
+
+    $('#demo').mousedown(function(e) { // binding mousedown event
+        var canvasOffset = $(canvas).offset();
+        iMouseX = Math.floor(e.pageX - canvasOffset.left);
+        iMouseY = Math.floor(e.pageY - canvasOffset.top);
+
+        theSelection.px = iMouseX - theSelection.x;
+        theSelection.py = iMouseY - theSelection.y;
+
+        if (theSelection.bHow[0]) {
+            theSelection.px = iMouseX - theSelection.x;
+            theSelection.py = iMouseY - theSelection.y;
+        }
+        if (theSelection.bHow[1]) {
+            theSelection.px = iMouseX - theSelection.x - theSelection.w;
+            theSelection.py = iMouseY - theSelection.y;
+        }
+        if (theSelection.bHow[2]) {
+            theSelection.px = iMouseX - theSelection.x - theSelection.w;
+            theSelection.py = iMouseY - theSelection.y - theSelection.h;
+        }
+        if (theSelection.bHow[3]) {
+            theSelection.px = iMouseX - theSelection.x;
+            theSelection.py = iMouseY - theSelection.y - theSelection.h;
+        }
+        
+
+        if (iMouseX > theSelection.x + theSelection.csizeh && iMouseX < theSelection.x+theSelection.w - theSelection.csizeh &&
+            iMouseY > theSelection.y + theSelection.csizeh && iMouseY < theSelection.y+theSelection.h - theSelection.csizeh) {
+
+            theSelection.bDragAll = true;
+        }
+
+        for (i = 0; i < 4; i++) {
+            if (theSelection.bHow[i]) {
+                theSelection.bDrag[i] = true;
+            }
+        }
+    });
+
+    $('#demo').mouseup(function(e) { // binding mouseup event
+        theSelection.bDragAll = false;
+
+        for (i = 0; i < 4; i++) {
+            theSelection.bDrag[i] = false;
+        }
+        theSelection.px = 0;
+        theSelection.py = 0;
+    });
+
+    drawScene();
+  })	
+  $("#cropbutton").click(function(){
+	  cropstatus=false;
+	  newcanvas();
+	});
+  $("#savebutton").click(function(){
+	  saveImageInfo();
+	  saveAsLocalImage(); 
+	});
+  $("#togetherbutton").click(function(){
+	  show3('togetherpart');
+  });
+  $("#heng").click(function(){
+	  alert("点击确认拼接完成拼接");
+	  $("#pin").click(function(){
+		  hpinjie();  
+	  });
+  });
+  $("#shu").click(function(){
+	  alert("点击确认拼接完成拼接");
+	  $("#pin").click(function(){
+		  spinjie();
+	  })
+  })
+});
+function preImg(sourceId, targetId) {
+            cxt.clearRect(0, 0, 450, 450);
+            if (typeof FileReader === 'undefined') {
+                alert('Your browser does not support FileReader...');
+                return;
+            }
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                img = document.getElementById(targetId);
+                var cxt = document.getElementById("demo").getContext("2d")
+                img.src = this.result;
+                img.onload = function () {
+                    cxt.drawImage(img, 0, 0,450,450);
+                }
+				img.id="tu1";
+				Img.src= this.result;
+            }
+            reader.readAsDataURL(document.getElementById(sourceId).files[0]);
+}
+function preImg2(sourceId, targetId) {
+            //cxt.clearRect(225, 0, 225, 450);
+            if (typeof FileReader === 'undefined') {
+                alert('Your browser does not support FileReader...');
+                return;
+            }
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                img = document.getElementById(targetId);
+                var cxt = document.getElementById("demo").getContext("2d")
+                img.src = this.result;
+                //img.onload = function () {
+                  //  cxt.drawImage(img, 225, 0,225,450);
+                //}
+				img.id="tu2";
+            }
+            reader.readAsDataURL(document.getElementById(sourceId).files[0]);
+}
+function size()
+{	
+	a1=document.getElementById("w1").value;
+    a2=document.getElementById("w2").value;
+    var nc = document.createElement("canvas");   
+    nc.width = canvas.width;   
+    nc.height = canvas.height; 
+    nc.getContext("2d").drawImage(canvas,0,0); 
+	cxt.clearRect(0, 0, cxt.canvas.width, cxt.canvas.height);
+    canvas.width = a1;    
+    canvas.height = a2;    
+	canvas.style.position='absolute';
+	cxt.drawImage(nc, 0, 0, canvas.width, canvas.height); 
+	canvas.style.top=110+(450-canvas.height)/2;
+	canvas.style.left=420+(450-canvas.width)/2;
+    //var mycanvas = document.getElementById("demo"); 
+    //var Img = mycanvas.toDataURL("image/png");
+}
+function show(objectid){
+var i=document.getElementById(objectid);
+if (i.style.display=="") 
+{  
+i.style.display="block";
+}
+else {  
+i.style.display=""; 
+}
+}
+function show2(objectid){
+	var j=document.getElementById(objectid);
+	if(j.style.display=="")
+	{
+		j.style.display="block";
+	}
+}
+function saveImageInfo(){
+	var mycanvas = document.getElementById("demo"); 
+    var image = mycanvas.toDataURL("image/png"); 
+    var w=window.open('about:blank','image from canvas'); 
+    w.document.write("<img src='"+image+"' alt='from canvas'/>"); 
+} 
+function saveAsLocalImage(){ 
+    var myCanvas = document.getElementById("demo"); 
+    // here is the most important part because if you dont replace you will get a DOM 18 exception. 
+    // var image = myCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream;Content-Disposition: attachment;filename=foobar.png"); 
+    var image = myCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream"); 
+    window.location.href=image; // it will save locally 
+} 
+function show3(objectid){
+	var k=document.getElementById(objectid);
+	if(k.style.display=="")
+	{
+		k.style.display="block";
+	}
+}
+var i1,i2,j1,j2;
+function hpinjie(){//横拼
+    var canvasOffset = $(canvas).offset();
+	i1=tu1.width;
+	i2=tu2.width;
+	j1=tu1.height;
+	j2=tu2.height;
+	canvas.width=(i1+i2)*450/1024;
+	canvas.style.position='absolute';
+	canvas.style.left=canvasOffset.left+225-(i2*450/1024+i1*450/1024)/2;
+	if(j1<j2){
+		canvas.height=j2*450/1024;
+		cxt.drawImage(tu1,0,(j2-j1)*450/1024/2,i1*450/1024,j1*450/1024);
+		cxt.drawImage(tu2,i1*450/1024,0,i2*450/1024,j2*450/1024);
+		canvas.style.top=canvasOffset.top+225-j2*450/1024/2;
+	}
+	if(j1>=j2){
+		canvas.height=j1*450/1024;
+		cxt.drawImage(tu1,0,0,i1*450/1024,j1*450/1024);
+		cxt.drawImage(tu2,i1*450/1024,(j1-j2)*450/2/1024,i2*450/1024,j2*450/1024);
+		canvas.style.top=canvasOffset.top+225-j1*450/1024/2;
+	}
+	//var mycanvas = document.getElementById("demo"); 
+    //var Img = mycanvas.toDataURL("image/png");
+}
+function spinjie(){//横拼
+    var canvasOffset = $(canvas).offset();
+	i1=tu1.width;
+	i2=tu2.width;
+	j1=tu1.height;
+	j2=tu2.height;
+	canvas.height=(i1+i2)*450/1024;
+	canvas.style.position='absolute';
+	canvas.style.top=canvasOffset.top+225-(j2*450/1024+j1*450/1024)/2+80;
+	if(i1<i2){
+		canvas.width=i2*450/1024;
+		cxt.drawImage(tu1,(i2-i1)*450/1024/2,0,i1*450/1024,j1*450/1024);
+		cxt.drawImage(tu2,0,j1*450/1024,i2*450/1024,j2*450/1024);
+		canvas.style.left=canvasOffset.left+225-i2*450/1024/2;
+	}
+	if(i1>=i2){
+		canvas.width=i1*450/1024;
+		cxt.drawImage(tu1,0,0,i1*450/1024,j1*450/1024);
+		cxt.drawImage(tu2,(i1-i2)*450/1024/2,j1*450/1024,i2*450/1024,j2*450/1024);
+		canvas.style.left=canvasOffset.left+225-i1*450/1024/2;
+	}
+	if(canvas.style.top<'100px'){
+		alert("bian");
+		canvas.style.top='100px';
+		}
+	//var mycanvas = document.getElementById("demo"); 
+    //var Img = mycanvas.toDataURL("image/png");
+}
+</script>
+	</body>
+	</html>
